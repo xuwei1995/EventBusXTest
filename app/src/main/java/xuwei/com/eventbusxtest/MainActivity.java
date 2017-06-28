@@ -3,6 +3,7 @@ package xuwei.com.eventbusxtest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import xuwei.com.eventbusxtest.bean.User;
 import xuwei.com.eventbusxtest.event.BaseEvents;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "MainActivity";
     private TextView text;
     private Button button,intentsec;
     @Override
@@ -34,6 +36,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         User user= (User) baseEvents.getObject();
         text.setText(user.getUserName()+"\n"+user.getPassWord());
     }
+    @Subscribe(sticky = true)
+    public void onEvent(BaseEvents. CommonEvent event) {
+        // UI updates must run on MainThread
+        if(event==BaseEvents.CommonEvent.BACK){
+
+            text.setText(event.getObject().toString());
+            Log.d(TAG,"Content is : "+event.getObject().toString());
+
+        }
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -51,4 +64,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
+
 }

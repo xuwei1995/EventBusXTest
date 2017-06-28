@@ -10,7 +10,8 @@ public interface BaseEvents{
     //事件定义
     enum CommonEvent implements BaseEvents {
         LOGIN, //登录
-        LOGOUT; //登出
+        LOGOUT, //登出
+        BACK;
         private Object obj;
         @Override
         public void setObject(Object obj) {
@@ -22,4 +23,5 @@ public interface BaseEvents{
         }
     }
     // ... 其他事件定义
+
 }

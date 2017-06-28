@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -31,5 +32,13 @@ public class SecondActivity extends BaseActivity {
 
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        BaseEvents. CommonEvent event = BaseEvents.CommonEvent.BACK;
+        event.setObject("我是SecondActibity返回的");
+        EventBus.getDefault().postSticky(event); //这里发送的是粘性事件 在secondActivity可以接受 此方法可以代替onActivityResult
     }
 }
