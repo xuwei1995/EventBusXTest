@@ -28,7 +28,7 @@ public class SecondActivity extends BaseActivity {
         if(event==BaseEvents.CommonEvent.LOGIN){
             User user= (User) event.getObject();
             text.setText(user.getUserName()+"\n"+user.getPassWord());
-            Log.d(TAG,"Content is : "+user.getUserName()+"\n"+user.getPassWord());
+             Log.d(TAG,"Content is : "+user.getUserName()+"\n"+user.getPassWord());
 
         }
 

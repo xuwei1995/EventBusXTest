@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         // UI updates must run on MainThread
         if(event==BaseEvents.CommonEvent.BACK){
 
-            text.setText(event.getObject().toString());
+             text.setText(event.getObject().toString());
             Log.d(TAG,"Content is : "+event.getObject().toString());
 
         }
