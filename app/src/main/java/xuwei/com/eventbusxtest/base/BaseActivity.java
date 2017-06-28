@@ -17,6 +17,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -29,12 +30,12 @@ public class BaseActivity extends AppCompatActivity {
         super.onStop();
     }
 
-    protected void registEventBus(){
+    protected void registEventBus() {
         //子类如果需要注册eventbus，则重写此方法
         EventBus.getDefault().register(this);
     }
 
-    protected void unRegistEventBus(){
+    protected void unRegistEventBus() {
         //子类如果需要注销eventbus，则重写此方法
         EventBus.getDefault().unregister(this);
     }
