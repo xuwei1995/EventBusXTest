@@ -9,6 +9,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import xuwei.com.eventbusxtest.base.BaseActivity;
+import xuwei.com.eventbusxtest.bean.User;
 import xuwei.com.eventbusxtest.event.BaseEvents;
 
 public class SecondActivity extends BaseActivity {
@@ -24,9 +25,10 @@ public class SecondActivity extends BaseActivity {
     public void onEvent(BaseEvents. CommonEvent event) {
         // UI updates must run on MainThread
         if(event==BaseEvents.CommonEvent.LOGIN){
-            String conent = (String)event.getObject();
-            Log.d(TAG,"Content is : "+conent);
-            text.setText(conent);
+            User user= (User) event.getObject();
+            text.setText(user.getUserName()+"\n"+user.getPassWord());
+            Log.d(TAG,"Content is : "+user.getUserName()+"\n"+user.getPassWord());
+
         }
 
     }

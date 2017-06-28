@@ -12,6 +12,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import xuwei.com.eventbusxtest.base.BaseActivity;
+import xuwei.com.eventbusxtest.bean.User;
 import xuwei.com.eventbusxtest.event.BaseEvents;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -30,7 +31,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     //处理事件
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMoonEvent(  BaseEvents.CommonEvent baseEvents) {
-        text.setText(baseEvents.getObject().toString());
+        User user= (User) baseEvents.getObject();
+        text.setText(user.getUserName()+"\n"+user.getPassWord());
     }
 
     @Override
@@ -38,7 +40,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case  R.id.button :
                 BaseEvents. CommonEvent event = BaseEvents.CommonEvent.LOGIN;
-                event.setObject("Send StickyEvent");
+                User user=new User();
+                user.setUserName("xuwei");
+                user.setPassWord("111");
+                event.setObject(user);
                 EventBus.getDefault().postSticky(event); //这里发送的是粘性事件 在secondActivity可以接受 此方法可以代替onActivityResult
                 break;
             case  R.id.intentSec:
