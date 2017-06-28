@@ -14,7 +14,7 @@ EventBus是一种为了优化Android组件之间事件传递的解耦工具，</
 
 在这里以gradle引用EventBus3库为例进行说明
 ```java 
-compile 'org.greenrobot:eventbus:3.0.0'</br></br></br>
+compile 'org.greenrobot:eventbus:3.0.0'
 ```
 首先给我们要写自己的事件（就是定义事件，然后我们可以去发送这个定义的事件或者接受这个定义的事件）
 </br>废话 不多说我来贴代码</br>
