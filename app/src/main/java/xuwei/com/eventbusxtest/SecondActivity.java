@@ -24,6 +24,7 @@ public class SecondActivity extends BaseActivity {
     }
     @Subscribe(sticky = true)
     public void onEvent(BaseEvents. CommonEvent event) {
+
         // UI updates must run on MainThread
         if(event==BaseEvents.CommonEvent.LOGIN){
             User user= (User) event.getObject();
