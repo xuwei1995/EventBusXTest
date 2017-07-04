@@ -8,14 +8,14 @@ EventBus是一种为了优化Android组件之间事件传递的解耦工具，</
 在EventBus 3之前，greenrobot团队因为考虑性能原因所以比较抵触使用注解框架。</br>目前的EventBus3开始使用注解来申明订阅事件的处理方法。</br>虽然目前Android 6 和ART都有了，但是对于Java反射造成的性能影响还是没能很好的解决。
 在EventBus3中，</br>greenrobot团队通过利用在编译时检索所有注解代码，然后生成一个包含所有在运行时要花很大代价才能获取的数据的类，</br>通过这种新的注解处理方式来提升性能，让EventBus3比其他的eventbus会更加快。
 
-##EventBus 3的使用
+### EventBus 3的使用
 
 引入EventBus库文件
 
 在这里以gradle引用EventBus3库为例进行说明
-
-compile 'org.greenrobot:eventbus:3.0.0'</br></br></br>
-
+```java 
+compile 'org.greenrobot:eventbus:3.0.0'
+```
 首先给我们要写自己的事件（就是定义事件，然后我们可以去发送这个定义的事件或者接受这个定义的事件）
 </br>废话 不多说我来贴代码</br>
 ```java  
@@ -47,7 +47,7 @@ compile 'org.greenrobot:eventbus:3.0.0'</br></br></br>
 好了我这里写了一个CommonEvent 枚举 有login logout　back 分别代表不同是事情类型 
 setObject和getObject方法可以传递object（我用eventbus的目的就是传递各种类型的对象，这里我们定义万能型）
 好了 我们定义好事件了 等着接来来的发送和接受事件吧。
-##Eventbus的注册和反注册 
+## Eventbus的注册和反注册 
 在使用eventbus的发送接受之前我们必须要在活动中去注册
 官方推荐我们在baseActivity中注册反注册 下面给出版主的代码：</br>
 ```java  
@@ -111,11 +111,11 @@ public void handleSomethingElse(SomeOtherEvent event){
         text.setText(user.getUserName()+"\n"+user.getPassWord());
     }
 ```
-其实ThreadMode枚举包含四个值： 
-　　 - PostThread 
-　　 - MainThread 
-　　 - BackgroundThread 
-　　 - Async
+ThreadMode枚举包含四个值： 
+### - PostThread 
+### - MainThread 
+### - BackgroundThread 
+### - Async
  A.PostThread(默认模式)
 
 调用线程：事件发布线程 
@@ -142,7 +142,7 @@ D.Async
 
 EventBus使用线程池来有效地重用异步线程。
  
-##发送事件
+## 发送事件
 
 在发送事件时，可以利用我们定义的一个BaseEvent进行值的传递，因为定义的是一个Object对象，只需要保证类型转换正确的前提下就可以随意传值了。示例如下：
 
@@ -151,10 +151,23 @@ event.setObject("Send Event"); //传入一个String对象
 eventBus.post(event); //发布事件
 如此就简单的实现了一个EventBus事件的发布。
 ## StickyEvent
-
+sticky事件就是指在EventBus内部被缓存的那些事件。EventBus为每个类（class）类型保存了最近一次被发送的事件——sticky。后续被发送过来的相同类型的sticky事件会自动替换之前缓存的事件。当一个监听者向EventBus进行注册时，它可能会去请求这些缓存事件。这时，所有已缓存的事件就会立即自动发送给这个监听者，就象这些事件又重新刚被发送了一次一样。这就意味着，一个监听者可以收到在它注册之前就已经被发送到EventBus中的事件（甚至是在这个监听者的实例被创建出来前，这一点是不是很奇妙）。这一强大功能将有助于我们解决某些固有的问题，如android上跨Activity和Fragment生命周期传递数据这种复杂问题，异步调用等等。（废话可以不看）
+ 
 有时候，我们会面对这样一个问题，那就是我们要把一个Event发送到一个还没有初始化的Activity/Fragment，即尚未订阅事件。那么如果只是简单的post一个事件，那么是无法收到的，这时候，需要使用 StickyEvent，实例说明：
 ```java  
 BaseEvents. CommonEvent event = BaseEvents.CommonEvent.LOGIN;
 event.setObject("Send StickyEvent"); 
 EventBus.getDefault().postSticky(event);
 ```
+这 时间你发送的这个事情已经被缓存了，如果在一个你没有打开的fragment中你接受了这个方法 当你进入这个fragment就会执行这个方法了
+## 注意事项
+工作线程和UI线程之间的事件传递
+在使用EventBus3时，由于event 在任何地方都可以发布一个事件，那么在不同线程之间传递事件，比如在工作线程传递一个事件更新UI线程中的一个控件，则需要注意threadMode的切换。
+
+取消线程仅限于 threadMode处于POSTING模式才可以
+否则容易导致错误:
+org.greenrobot.eventbus.EventBusException: This method may only be called from inside event handling methods on the posting thread
+
+eventbus 还有一些功能这里没有讲到比如混淆和事件处理优先级及事件拦截 我会接着更新
+如果这个demo帮助到你了，请你给版主一个star谢谢，版主还是一个android菜鸟 希望和大家共同学习下面是我的QQ二维码 欢迎大家骚扰和我一起学习 ！！！
+![](https://github.com/xuwei1995/EventBusXTest/blob/master/app/src/main/java/xuwei/com/eventbusxtest/gif/erweimaqq.png?raw=true)
